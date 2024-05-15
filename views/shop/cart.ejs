@@ -1,0 +1,58 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/shop.css" />
+    <link rel="stylesheet" href="/css/cart.css" />
+    </head>
+
+    <body>
+
+
+
+        <%- include('../includes/header.ejs') %>
+
+        <% if (products.length> 0) { %>
+            <div class="container">
+                <h1>Shopping Cart</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>id</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+
+                            <% for(const product of products){ %>
+        
+
+                        <tr>
+                            <td><%= product.product.title %></td>
+                            <td><%= product.qty %></td>
+                            <td>$<%= product.product.price %></td>
+                            <td>$<%= product.product.id %></td>
+                            <td>
+                                <form action="/cart-delete" method="post">
+                                    <input type="hidden"  value="<%= product.product.id %>" name="productId">
+                                    <button type="submit" >Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        
+                        <% } %>
+
+                       
+                    </tbody>
+                </table>
+                <div class="total">
+                    
+                    <strong>Total:</strong> $<%= totalprice %>
+                </div>
+                
+            </div>
+            <% } else {%>
+                <h1>Item Not Found</h1>
+                <% } %>
+            <%- include('../includes/end.ejs') %>

@@ -1,0 +1,22 @@
+
+
+<%- include('../includes/head.ejs')  %>
+    <link rel="stylesheet" href="/css/porductDetail.css" />
+</head>
+
+<body>
+
+    <%- include('../includes/header.ejs') %>
+    <div class="product-container">
+        <img class="product-image" src="<%= singleProduct?.imgUrl %>" alt="Product Image">
+        <h2 class="product-title"><%= singleProduct?.title %></h2>
+        <p class="product-price">$<%= singleProduct?.price %></p>
+        <p class="product-description"><%= singleProduct?.description %></p>
+
+        <form action="/admin/cart" method="POST">
+            <button type="submit"  >Add To Cart</button>
+            <input type="hidden" name="productId" value="<%= singleProduct?.id %>" >
+        </form>
+    </div>
+
+    <%- include('../includes/end.ejs') %>

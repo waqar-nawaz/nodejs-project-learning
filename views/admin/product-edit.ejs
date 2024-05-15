@@ -1,0 +1,33 @@
+<%- include('../includes/head.ejs')  %>
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+    <%- include('../includes/header.ejs') %>
+
+    <main>
+        <form action="/admin/<% if(editMode){ %>edit-product<% } else{ %>add-product<% } %> " method="POST">
+            <% if(editMode){ %>
+                <input type="hidden" name="productId" value="<%= product.id %>">
+            <% } %>
+            <label for="product_name">Product Name:</label>
+            <input type="text" name="product_name" id="product_name" value="<% if (editMode) { %> <%= product.title %> <% } %>" autofocus placeholder="Product Title" required>
+            
+            <% if(!editMode){ %>
+                <label for="imgUrl">Image:</label>
+                <input type="text" name="imgUrl" id="imgUrl" placeholder="Image Url">
+            <% } %>
+            
+            <label for="price">Price:</label>
+            <input type="text" name="price" id="price" value="<% if(editMode){ %> <%= product.price %> <% } %>" placeholder="price" required>
+            
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description" value="<% if(editMode){ %> <%= product.description %> <% } %>" placeholder="description" required>
+            
+            <button type="submit">
+                <% if (editMode) { %> Update Product <% } else { %> Add Product <% } %>
+            </button>
+        </form>
+    </main>
+    
+    
+    <%- include('../includes/end.ejs') %>

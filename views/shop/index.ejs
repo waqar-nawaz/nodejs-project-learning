@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs')  %>
+    <link rel="stylesheet" href="/css/shop.css" />
+</head>
+
+<body>
+    
+
+    <%- include('../includes/header.ejs') %>
+    <main>
+        <% if (addProduct.length> 0) { %>
+            <div class="product-container">
+                <% for(let element of addProduct) { %>
+                    <div class="product-card">
+                        <div style="width: 100%;">
+                        <img src=" <%= element?.imgUrl %>" alt="Image Not Found" class="product-image" />
+                            </div>
+                        <h2>
+                            <%= element?.title %>
+                        </h2>
+                        <p> <%= element?.description %></p>
+                        <p>product-price $ <%= element?.price %></p>
+
+                        <form action="/admin/cart" method="POST">
+                            <button type="submit"  >Add To Cart</button>
+                            <input type="hidden" name="productId" value="<%= element.id %>" >
+                        </form>
+                    </div>
+
+                    <% } %>
+            </div>
+            <% } else { %>
+                <h1>Data Not Found</h1>
+                <% } %>
+    </main>
+
+    <%- include('../includes/end.ejs') %>

@@ -1,0 +1,57 @@
+main {
+    padding: 20px;
+   
+}
+
+.circle-image {
+    display: inline-block; /* Ensure the container doesn't take full width */
+    margin-bottom: 20px; /* Adjust spacing */
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    overflow: hidden; /* Hide overflow to maintain circle shape */
+    border-radius: 50%; /* Create a circle */
+    transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.circle-image:hover {
+    transform: scale(1.2); /* Scale the image on hover */
+}
+
+.circle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio without stretching */
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
