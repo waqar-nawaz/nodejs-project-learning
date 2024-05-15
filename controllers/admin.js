@@ -67,7 +67,7 @@ exports.postEditProduct = (req, res) => {
       res.redirect("/admin/product");
     })
     .catch((err) => {
-      console.log("err :>> ", err);
+      
     });
 };
 
