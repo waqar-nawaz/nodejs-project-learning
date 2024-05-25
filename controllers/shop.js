@@ -57,29 +57,26 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  let cartItemData = [];
-  Cart.getCartItem((cart) => {
-    let totlprice = cart.totalPrice;
-
-    ProductModel.getFetchAll().then((product) => {
-      for (const pro of product) {
-        cart.products?.forEach((element) => {
-          if (pro.id === element.id) {
-            cartItemData.push({ product: pro, qty: element.qty });
-          }
-        });
-      }
-
-      // console.log("cartItemData :>> ", cartItemData);
+ 
+  req.user.getCart().then((carts) => {
+    
+    return carts.getProducts().then((products) => {
       res.render("shop/cart", {
         title: "Cart",
-        products: cartItemData,
-        totalprice: totlprice,
+        products: products,
         pageTitle: "Carts",
         path: "/cart",
-      });
+      })
+    }).catch((err) => {
+      
     });
+    
+  }).catch((err) => {
+    
   });
+
+     
+   
 };
 
 exports.deleteCartProduct = (req, res, next) => {
