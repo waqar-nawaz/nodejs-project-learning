@@ -22,7 +22,7 @@ exports.listProduct = async (req, res, next) => {
 exports.getProduct = (req, res, next) => {
 
 ProductModel.findByPk(req.params.productId).then((result)=>{
-  console.log('result :>> ', result.dataValues);
+  console.log('result :>> ', result);
   res.render("shop/product-detail", {
     singleProduct:result,
     title: "Products Detail",
@@ -67,6 +67,8 @@ exports.getCart = async (req, res, next) => {
         pageTitle: "Carts",
         path: "/cart",
       })
+
+      console.log('car product',products);
     }).catch((err) => {
       
     });
