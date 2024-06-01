@@ -28,18 +28,17 @@
                             <% for(const product of products){ %>
         
 
-                        <tr>
-                            <td><%= product.title %></td>
-                            <td><%= product.cartItem.quantity %></td>
-                           
-                            <td>$<%= product.id %></td>
-                            <td>
-                                <form action="/cart-delete" method="post">
-                                    <input type="hidden"  value="<%= product.id %>" name="productId">
-                                    <button type="submit" >Remove</button>
-                                </form>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <td><%= product.title %></td>
+                                    <td><%= product.cartItem.quantity %></td>
+                                    <td>$<%= product.id %></td>
+                                    <td>
+                                      <form class="delete-form" action="/cart-delete" method="post">
+                                        <input type="hidden" value="<%= product.id %>" name="productId">
+                                        <button type="submit">Remove</button>
+                                      </form>
+                                    </td>
+                                  </tr>
                         
                         <% } %>
 
@@ -47,9 +46,32 @@
                     </tbody>
                 </table>
                 
+                <div class="centered">
+                    <form action="/create-order" method="post">
+                        <button type="submit" >order</button>
+                    </form>
+                </div>
                 
             </div>
             <% } else {%>
                 <h1>Item Not Found</h1>
                 <% } %>
+
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                      const forms = document.querySelectorAll('.delete-form');
+                      forms.forEach(function(form) {
+                        form.addEventListener('submit', function(event) {
+                          event.preventDefault(); // Prevent the default form submission
+                          const userConfirmed = confirm('Are you sure you want to proceed?');
+                          if (userConfirmed) {
+                            form.submit(); // Submit the form if the user confirms
+                          }
+                        });
+                      });
+                    });
+                  </script>
+
+
             <%- include('../includes/end.ejs') %>

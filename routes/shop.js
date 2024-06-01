@@ -18,4 +18,6 @@ routes.get("/product/:productId", shopController.getProduct);
 
 routes.post("/cart-delete", shopController.deleteCartProduct);
 
+routes.post("/create-order", shopController.postOrder);
+
 module.exports = routes;

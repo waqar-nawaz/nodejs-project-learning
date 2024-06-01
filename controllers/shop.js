@@ -1,7 +1,11 @@
 const ProductModel = require("../models/productModel");
-const Cart = require("../models/cart");
 
-const Sequelize = require("sequelize");
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 exports.listProduct = async (req, res, next) => {
   ProductModel.findAll()
@@ -78,11 +82,17 @@ exports.getCart = async (req, res, next) => {
     .catch((err) => {});
 };
 exports.getOrder = async (req, res, next) => {
-  res.render("shop/order", {
-    title: "Order",
-    pageTitle: "Order",
-    path: "/order",
-  });
+  req.user
+    .getOrders({ include: ["products"] })
+    .then((order) => {
+      res.render("shop/order", {
+        title: "Order",
+        pageTitle: "Order",
+        order: order,
+        path: "/order",
+      });
+    })
+    .catch((err) => {});
 };
 
 exports.deleteCartProduct = (req, res, next) => {
@@ -107,4 +117,37 @@ exports.deleteCartProduct = (req, res, next) => {
   // ProductModel.getSingleProduct(req.body.productId).then((singleProduct) => {
   //   Cart.deleteCart(req.body.productId, singleProduct.price);
   // });
+};
+
+exports.postOrder = (req, res, next) => {
+  let fetchcart;
+  req.user
+    .getCart()
+    .then((cart) => {
+      fetchcart = cart;
+      return cart.getProducts();
+    })
+    .then((products) => {
+      return req.user
+        .createOrder()
+        .then((order) => {
+          order.addProduct(
+            products.map((product) => {
+              product.orderItem = {
+                quantity: product.cartItem.quantity,
+              };
+              return product;
+            })
+          );
+        })
+        .catch((err) => {})
+
+        .then((result) => {
+          return res.redirect("/order");
+        })
+        .then((result) => {
+          return fetchcart.setProducts(null);
+        });
+    })
+    .catch((err) => {});
 };
