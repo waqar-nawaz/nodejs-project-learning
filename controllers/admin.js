@@ -76,8 +76,15 @@ exports.postEditProduct = (req, res) => {
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.deleteId;
+  // let command = confirm(
+  //   `Are You Sure To Delete Product = ${Products.findByPk({
+  //     where: { id: id },
+  //   }).then((res) => {
+  //     return res.title;
+  //   })}`
+  // );
 
-  Products.destroy({ where: { id: req.params.deleteId } })
+  Products.destroy({ where: { id: id } })
     .then((result) => {
       res.redirect("/admin/product");
     })
@@ -129,7 +136,7 @@ exports.addToCart = (req, res, next) => {
       if (prodcut) {
         oldQuantity = prodcut.cartItem.quantity;
         newQuantity = oldQuantity + 1;
-        console.log('cardcardacar item ',prodcut.cartItem.dataValues);
+        console.log("cardcardacar item ", prodcut.cartItem.dataValues);
         return prodcut;
       }
 
