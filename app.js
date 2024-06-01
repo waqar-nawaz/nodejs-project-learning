@@ -29,7 +29,7 @@ app.use((req, res, next) => {
       // console.log('req.user :>> ', req.user);
       next();
     })
-    .catch((err) => {});
+    .catch((err) => { });
 });
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
@@ -49,8 +49,8 @@ User.hasMany(Order);
 Order.belongsToMany(Product, { through: OrderItem });
 
 sequelize
-  // .sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then((result) => {
     User.findByPk(1)
       .then((user) => {
@@ -61,13 +61,16 @@ sequelize
         return user;
       })
       .then((user) => {
-        // console.log("user :>> ", user);
-        return user.createCart();
+        return user.getCart().then((result) => {
+          if (result == null) {
+            return user.createCart();
+          }
+        });
       })
       .then((cart) => {
         app.listen(3000);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   })
   .catch((err) => {
     console.log("err :>> ", err);
