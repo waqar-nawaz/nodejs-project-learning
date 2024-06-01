@@ -12,6 +12,9 @@ const errorController = require("./controllers/errorController");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
 
+const OrderItem = require("./models/order-item");
+const Order = require("./models/order");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -26,7 +29,7 @@ app.use((req, res, next) => {
       // console.log('req.user :>> ', req.user);
       next();
     })
-    .catch((err) => { });
+    .catch((err) => {});
 });
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
@@ -34,14 +37,20 @@ app.use(errorController.get404);
 
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
-Cart.belongsTo(User)
-User.hasOne(Cart)
+Cart.belongsTo(User);
+User.hasOne(Cart);
 
-Cart.belongsToMany(Product,{through: CartItem}); // in one cart may be many product
-Product.belongsToMany(Cart,{through: CartItem}) // same prodcut may be in different cart by different user
+Cart.belongsToMany(Product, { through: CartItem }); // in one cart may be many product
+Product.belongsToMany(Cart, { through: CartItem }); // same prodcut may be in different cart by different user
+
+Order.belongsTo(User);
+User.hasMany(Order);
+
+Order.belongsToMany(Product, { through: OrderItem });
 
 sequelize
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then((result) => {
     User.findByPk(1)
       .then((user) => {
@@ -53,16 +62,15 @@ sequelize
       })
       .then((user) => {
         // console.log("user :>> ", user);
-       return user.createCart();
-      }).then((cart)=>{
+        return user.createCart();
+      })
+      .then((cart) => {
         app.listen(3000);
       })
-      .catch((err) => { });
+      .catch((err) => {});
   })
   .catch((err) => {
-    console.log("err :>> ", err); 
+    console.log("err :>> ", err);
   });
-
-
 
 // const server = http.createServer(routeHander);
