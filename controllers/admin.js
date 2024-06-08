@@ -76,14 +76,6 @@ exports.postEditProduct = (req, res) => {
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.deleteId;
-  // let command = confirm(
-  //   `Are You Sure To Delete Product = ${Products.findByPk({
-  //     where: { id: id },
-  //   }).then((res) => {
-  //     return res.title;
-  //   })}`
-  // );
-
   Products.destroy({ where: { id: id } })
     .then((result) => {
       res.redirect("/admin/product");
@@ -150,5 +142,5 @@ exports.addToCart = (req, res, next) => {
     .then((data) => {
       res.redirect("/cart");
     })
-    .catch((err) => {});
+    .catch((err) => { });
 };
