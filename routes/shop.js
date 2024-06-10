@@ -8,16 +8,17 @@ const shopController = require("../controllers/shop");
 
 routes.get("/", shopController.getIndex);
 
-routes.get("/cart", shopController.getCart);
-
-routes.get("/order", shopController.getOrder);
-
 routes.get("/products", shopController.listProduct);
+
+// routes.get("/cart", shopController.getCart);
+
+// routes.get("/order", shopController.getOrder);
+
 
 routes.get("/product/:productId", shopController.getProduct);
 
-routes.post("/cart-delete", shopController.deleteCartProduct);
+// routes.post("/cart-delete", shopController.deleteCartProduct);
 
-routes.post("/create-order", shopController.postOrder);
+// routes.post("/create-order", shopController.postOrder);
 
 module.exports = routes;

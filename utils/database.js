@@ -5,24 +5,33 @@ const mongoClient = mongodb.MongoClient;
 
 
 
+let _db;
 
-
-const link = 'mongodb+srv://nodejscource:buUQrtLiN3fkmpcV@nodejscource.seucex9.mongodb.net/?retryWrites=true&w=majority&appName=nodejscource'
+const link = 'mongodb+srv://nodejscource:buUQrtLiN3fkmpcV@nodejscource.seucex9.mongodb.net/shop?retryWrites=true&w=majority&appName=nodejscource'
 
 const mongonConnection = (callback) => {
 
-  mongoClient.connect(link).then((connection) => {
+  mongoClient.connect(link).then((client) => {
 
     console.log('Connected!')
-    callback(connection)
+    _db = client.db();
+    callback()
 
   }).catch((err) => {
-
+    console.log(err);
   })
 }
 
+const getDb = () => {
 
-module.exports = mongonConnection
+  if (_db) {
+    return _db
+  }
+  throw 'Database Not Found'
+}
+
+exports.mongonConnection = mongonConnection
+exports.getDb = getDb
 
 
 

@@ -1,34 +1,92 @@
-const Sequelize = require("sequelize");
-const sequelize = require('../utils/database')
 
-const Product = sequelize.define('product', {
-  id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true
+const getDb = require('../utils/database').getDb
+const mongodb = require('mongodb');
+
+
+class Product {
+  constructor(title,price,description,imgUrl) {
+    this.title = title
+    this.price = price
+    this.description = description
+    this.imgUrl = imgUrl
+  }
+
+
+  save(){
+    let db = getDb();
+    return db.collection('product').insertOne(this).then((product) => {
+      console.log('productssssss',product);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  static fetchAll(){
+    let db = getDb()
+   return db.collection('product').find().toArray().then((product) => {
+      return product
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+
+  static getSingleProduct(id){
+    let db = getDb();
+    console.log('product vlaue in models',id)
     
-  },
+    return db.collection('product').find({_id:new mongodb.ObjectId(id)}).next().then((result) => {
+      console.log('product vlaue in models',result)
+       return result
+    }).catch((err) => {
+      
+    });
+  }
 
-  price: {
-    allowNull: false,
-    type: Sequelize.DOUBLE,
-  },
+}
 
-  title: Sequelize.STRING,
 
-  description: {
-    allowNull: false,
-    type: Sequelize.STRING,
-  },
-  
-  imgUrl: {
-    allowNull: false,
-    type: Sequelize.STRING
-  },
-});
+
+
+
+
+
+
+
+
+
+// 
 
 module.exports = Product;
+
+// const Product = sequelize.define('product', {
+  //   id: {
+  //     type: Sequelize.INTEGER,
+  //     allowNull: false,
+  //     autoIncrement: true,
+  //     primaryKey: true
+      
+  //   },
+  
+  //   price: {
+  //     allowNull: false,
+  //     type: Sequelize.DOUBLE,
+  //   },
+  
+  //   title: Sequelize.STRING,
+  
+  //   description: {
+  //     allowNull: false,
+  //     type: Sequelize.STRING,
+  //   },
+    
+  //   imgUrl: {
+  //     allowNull: false,
+  //     type: Sequelize.STRING
+  //   },
+  // });
+
+
+
 
 // save() {
 //  return db.execute("insert into products(title,price,description,imgURl) values(?,?,?,?)",[this.title,this.price,this.description,this.imgUrl])

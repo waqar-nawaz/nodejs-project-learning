@@ -1,10 +1,10 @@
-const Products = require("../models/productModel");
-const Cart = require("../models/cart");
+// const Cart = require("../models/cart");
 
 const fs = require("fs");
 const path = require("path");
-const CartItem = require("../models/cart-item");
-const { log } = require("console");
+// const CartItem = require("../models/cart-item");
+const Product = require("../models/productModel");
+const getDb = require('../utils/database').getDb
 
 exports.getProduct = (req, res) => {
   // res.sendFile(path.join(rootDir, "views", "add-product.html"));
@@ -16,7 +16,7 @@ exports.getProduct = (req, res) => {
 };
 
 exports.editProduct = (req, res) => {
-  Products.findByPk(req.params.productId)
+  Product.getSingleProduct(req.params.productId)
     .then((result) => {
       if (!result) {
         return res.redirect("/");
@@ -34,26 +34,24 @@ exports.editProduct = (req, res) => {
 };
 
 exports.postProduct = (req, res) => {
-  req.user
-    .createProduct({
-      title: req.body.product_name,
-      description: req.body.description,
-      imgUrl: req.body.imgUrl,
-      price: req.body.price,
-      // UserId: req.user.id
-    })
+
+
+
+  let title = req.body.product_name
+  let description = req.body.description
+  let imgUrl = req.body.imgUrl
+  let price = req.body.price
+  // UserId: req.user.id
+  const product = new Product(title, price, description, imgUrl)
+
+  product.save()
     .then((result) => {
       res.redirect("/admin/product");
     })
     .catch((err) => console.log("err >> ", err));
 };
 
-// function convertImageToBase64(imageName) {
-//   const imagePath = path.join("C:/Users/DELL/Pictures/", imageName);
-//   const imageData = fs.readFileSync(imagePath);
-//   const base64Image = Buffer.from(imageData).toString("base64");
-//   return "data:image/png;base64," + base64Image;
-// }
+
 
 exports.postEditProduct = (req, res) => {
   let data = {
@@ -97,14 +95,17 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getProductlist = async (req, res, next) => {
-  Products.findAll().then((products) => {
+  Product.fetchAll().then((products) => {
     res.render("admin/product-list", {
       addProduct: products,
       title: "Products",
       pageTitle: "admin product",
       path: "/admin/product",
     });
+  }).catch((err) => {
+
   });
+
 };
 
 exports.addToCart = (req, res, next) => {

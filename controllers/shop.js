@@ -1,5 +1,4 @@
 const ProductModel = require("../models/productModel");
-
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -8,7 +7,7 @@ const rl = readline.createInterface({
 });
 
 exports.listProduct = async (req, res, next) => {
-  ProductModel.findAll()
+  ProductModel.fetchAll()
     .then((products) => {
       console.log("object :>> ", products);
       res.render("shop/product-list", {
@@ -24,7 +23,7 @@ exports.listProduct = async (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  ProductModel.findByPk(req.params.productId)
+  ProductModel.getSingleProduct(req.params.productId)
     .then((result) => {
       console.log("result :>> ", result);
       res.render("shop/product-detail", {
@@ -43,7 +42,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
-  ProductModel.findAll()
+  ProductModel.fetchAll()
     .then((products) => {
       console.log("object :>> ", products);
       res.render("shop/index", {
@@ -77,9 +76,9 @@ exports.getCart = async (req, res, next) => {
 
           console.log("car product", products);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     })
-    .catch((err) => {});
+    .catch((err) => { });
 };
 exports.getOrder = async (req, res, next) => {
   req.user
@@ -92,7 +91,7 @@ exports.getOrder = async (req, res, next) => {
         path: "/order",
       });
     })
-    .catch((err) => {});
+    .catch((err) => { });
 };
 
 exports.deleteCartProduct = (req, res, next) => {
@@ -140,7 +139,7 @@ exports.postOrder = (req, res, next) => {
             })
           );
         })
-        .catch((err) => {})
+        .catch((err) => { })
 
         .then((result) => {
           return res.redirect("/order");
@@ -149,5 +148,5 @@ exports.postOrder = (req, res, next) => {
           return fetchcart.setProducts(null);
         });
     })
-    .catch((err) => {});
+    .catch((err) => { });
 };

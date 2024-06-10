@@ -3,12 +3,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
-// const adminrHandler = require("./routes/admin");
-// const shopHandler = require("./routes/shop");
+const adminrHandler = require("./routes/admin");
+const shopHandler = require("./routes/shop");
 // const User = require("./models/user");
-// const errorController = require("./controllers/errorController");
+const errorController = require("./controllers/errorController");
 
-const mongodb = require('./utils/database')
+const mongodb = require('./utils/database').mongonConnection
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,13 +26,14 @@ app.use((req, res, next) => {
   //     next();
   //   })
   //   .catch((err) => { });
+  next()
 });
-// app.use("/admin", adminrHandler);
-// app.use(shopHandler);
-// app.use(errorController.get404);
+app.use("/admin", adminrHandler);
+app.use(shopHandler);
+app.use(errorController.get404);
 
-mongodb((client) => {
-
+mongodb(() => {
+  console.log('port 3000 working');
   app.listen(3000)
 })
 
