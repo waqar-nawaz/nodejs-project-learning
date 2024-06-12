@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const adminrHandler = require("./routes/admin");
 const shopHandler = require("./routes/shop");
-// const User = require("./models/user");
+const user = require('./models/user')
 const errorController = require("./controllers/errorController");
 
 const mongodb = require('./utils/database').mongonConnection
@@ -18,15 +18,17 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then((user) => {
-  //     req.user = user;
 
-  //     // console.log('req.user :>> ', req.user);
-  //     next();
-  //   })
-  //   .catch((err) => { });
-  next()
+  user.findById('6669e6f119abcec7172f2af2')
+    .then((user) => {
+      console.log(user);
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
 });
 app.use("/admin", adminrHandler);
 app.use(shopHandler);

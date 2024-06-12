@@ -42,7 +42,7 @@ exports.postProduct = (req, res) => {
   let imgUrl = req.body.imgUrl
   let price = req.body.price
   // UserId: req.user.id
-  const product = new Product(title, price, description, imgUrl)
+  const product = new Product(title, price, description, imgUrl, null, req.user._id)
 
   product.save()
     .then((result) => {
@@ -62,7 +62,7 @@ exports.postEditProduct = (req, res) => {
   };
   const id = req.body.productId;
 
-  Products.update(data, { where: { id: id } })
+  Product.updateProduct(id, data)
     .then((update) => {
       console.log("update :>> ", update);
       res.redirect("/admin/product");
@@ -74,7 +74,7 @@ exports.postEditProduct = (req, res) => {
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.deleteId;
-  Products.destroy({ where: { id: id } })
+  Product.deleteProduct(id)
     .then((result) => {
       res.redirect("/admin/product");
     })
