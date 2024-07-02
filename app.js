@@ -1,8 +1,8 @@
+require('dotenv').config()
 const path = require("path");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-
 const adminrHandler = require("./routes/admin");
 const shopHandler = require("./routes/shop");
 const user = require('./models/user')
@@ -35,8 +35,8 @@ app.use(shopHandler);
 app.use(errorController.get404);
 
 mongodb(() => {
-  console.log('port 3000 working');
-  app.listen(3000)
+  console.log(`WORKING PORT IS http://localhost:${process.env.PORT}`);
+  app.listen(process.env.PORT)
 })
 
 

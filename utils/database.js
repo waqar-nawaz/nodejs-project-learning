@@ -2,12 +2,13 @@
 const mongodb = require('mongodb');
 
 const mongoClient = mongodb.MongoClient;
+require('dotenv').config()
 
 
 
 let _db;
 
-const link = 'mongodb+srv://nodejscource:buUQrtLiN3fkmpcV@nodejscource.seucex9.mongodb.net/shop?retryWrites=true&w=majority&appName=nodejscource'
+const link = process.env.MONGO_URL
 
 const mongonConnection = (callback) => {
 
