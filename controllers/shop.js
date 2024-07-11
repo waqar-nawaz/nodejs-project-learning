@@ -1,4 +1,4 @@
-const ProductModel = require("../models/productModel");
+const Product = require("../models/productModel");
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -7,7 +7,7 @@ const rl = readline.createInterface({
 });
 
 exports.listProduct = async (req, res, next) => {
-  ProductModel.fetchAll()
+  Product.find()
     .then((products) => {
       console.log("object :>> ", products);
       res.render("shop/product-list", {
@@ -23,7 +23,7 @@ exports.listProduct = async (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  ProductModel.getSingleProduct(req.params.productId)
+  Product.getSingleProduct(req.params.productId)
     .then((result) => {
       console.log("result :>> ", result);
       res.render("shop/product-detail", {
@@ -42,7 +42,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
-  ProductModel.fetchAll()
+  Product.find()
     .then((products) => {
       console.log("object :>> ", products);
       res.render("shop/index", {
@@ -55,7 +55,7 @@ exports.getIndex = async (req, res, next) => {
     .catch((err) => {
       console.log("err :>> ", err);
     });
-  //  await ProductModel.getFetchAll().then(([products,fileData]) => {
+  //  await Product.getFetchAll().then(([products,fileData]) => {
 
   //   });
 };

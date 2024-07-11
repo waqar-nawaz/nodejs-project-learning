@@ -5,10 +5,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const adminrHandler = require("./routes/admin");
 const shopHandler = require("./routes/shop");
-const user = require('./models/user')
 const errorController = require("./controllers/errorController");
+const mongoose = require('mongoose')
 
-const mongodb = require('./utils/database').mongonConnection
+
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,45 +17,38 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
 
-  user.findById('6669e6f119abcec7172f2af2')
-    .then((user) => {
-      console.log(user);
-      req.user = user;
-      next();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+//   user.findById('6669e6f119abcec7172f2af2')
+//     .then((user) => {
+//       console.log(user);
+//       req.user = user;
+//       next();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
 
-});
+// });
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
 app.use(errorController.get404);
 
-mongodb(() => {
-  console.log(`WORKING PORT IS http://localhost:${process.env.PORT}`);
-  app.listen(process.env.PORT)
-})
+
+mongoose.connect(process.env.MONGO_URL).then((result) => {
+  console.log(`WORKING PORT IS http://localhost:${4200 || process.env.PORT}`);
+  app.listen(4200 || process.env.PORT)
+}).catch((err) => {
+
+  console.log(err);
+
+});
 
 
 
 
 
-// with promises call
-// mongodb().then((client) => {
-//   console.log(client)
-//   app.listen(3000)
-// }).catch((err) => {
 
-// });
-
-
-
-
-
-// const server = http.createServer(routeHander);
 
 
 

@@ -1,10 +1,7 @@
-// const Cart = require("../models/cart");
 
 const fs = require("fs");
 const path = require("path");
-// const CartItem = require("../models/cart-item");
 const Product = require("../models/productModel");
-const getDb = require('../utils/database').getDb
 
 exports.getProduct = (req, res) => {
   // res.sendFile(path.join(rootDir, "views", "add-product.html"));
@@ -16,7 +13,7 @@ exports.getProduct = (req, res) => {
 };
 
 exports.editProduct = (req, res) => {
-  Product.getSingleProduct(req.params.productId)
+  Product.findOne({ _id: req.params.productId })
     .then((result) => {
       if (!result) {
         return res.redirect("/");
@@ -42,10 +39,11 @@ exports.postProduct = (req, res) => {
   let imgUrl = req.body.imgUrl
   let price = req.body.price
   // UserId: req.user.id
-  const product = new Product(title, price, description, imgUrl, null, req.user._id)
+  const product = new Product({ title, price, description, imgUrl })
 
   product.save()
     .then((result) => {
+      console.log('create Product');
       res.redirect("/admin/product");
     })
     .catch((err) => console.log("err >> ", err));
@@ -62,7 +60,7 @@ exports.postEditProduct = (req, res) => {
   };
   const id = req.body.productId;
 
-  Product.updateProduct(id, data)
+  Product.updateOne({ _id: id }, data)
     .then((update) => {
       console.log("update :>> ", update);
       res.redirect("/admin/product");
@@ -74,7 +72,7 @@ exports.postEditProduct = (req, res) => {
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.deleteId;
-  Product.deleteProduct(id)
+  Product.findByIdAndDelete(id)
     .then((result) => {
       res.redirect("/admin/product");
     })
@@ -95,7 +93,7 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getProductlist = async (req, res, next) => {
-  Product.fetchAll().then((products) => {
+  Product.find().then((products) => {
     res.render("admin/product-list", {
       addProduct: products,
       title: "Products",
