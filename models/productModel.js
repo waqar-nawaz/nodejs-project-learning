@@ -22,6 +22,11 @@ const productSchema = new Schema({
     type: String,
     require: true
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    require: true,
+    ref: 'User'
+  }
 
 })
 

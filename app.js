@@ -7,7 +7,7 @@ const adminrHandler = require("./routes/admin");
 const shopHandler = require("./routes/shop");
 const errorController = require("./controllers/errorController");
 const mongoose = require('mongoose')
-
+const User = require('./models/user')
 
 
 
@@ -17,25 +17,48 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// app.use((req, res, next) => {
+app.use((req, res, next) => {
 
-//   user.findById('6669e6f119abcec7172f2af2')
-//     .then((user) => {
-//       console.log(user);
-//       req.user = user;
-//       next();
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
+  User.findById('6692e6ac550a450d8249a5a8')
+    .then((user) => {
+      console.log('User', user);
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-// });
+});
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
 app.use(errorController.get404);
 
 
 mongoose.connect(process.env.MONGO_URL).then((result) => {
+
+
+  User.findOne().then((user) => {
+
+    if (!user) {
+      const user = new User({
+        email: 'waqar@gmail.com',
+        name: 'waqar',
+        cart: {
+          items: []
+        }
+      })
+
+      user.save().then((result) => {
+        console.log('user create')
+      }).catch((err) => {
+
+      });
+    }
+  }).catch((err) => {
+
+  });
+
   console.log(`WORKING PORT IS http://localhost:${4200 || process.env.PORT}`);
   app.listen(4200 || process.env.PORT)
 }).catch((err) => {
