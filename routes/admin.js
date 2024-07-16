@@ -13,7 +13,7 @@ routes.post("/add-product", userController.postProduct);
 
 routes.post("/edit-product", userController.postEditProduct);
 
-// // routes.post("/cart", userController.addToCart);
+routes.post("/cart", userController.PostToCart);
 
 routes.get("/product", userController.getProductlist);
 

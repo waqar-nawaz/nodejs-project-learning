@@ -23,7 +23,7 @@ exports.listProduct = async (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  Product.getSingleProduct(req.params.productId)
+  Product.findById(req.params.productId)
     .then((result) => {
       console.log("result :>> ", result);
       res.render("shop/product-detail", {
@@ -61,24 +61,20 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  req.user
-    .getCart()
-    .then((carts) => {
-      return carts
-        .getProducts()
-        .then((products) => {
-          res.render("shop/cart", {
-            title: "Cart",
-            products: products,
-            pageTitle: "Carts",
-            path: "/cart",
-          });
 
-          console.log("car product", products);
-        })
-        .catch((err) => { });
-    })
-    .catch((err) => { });
+  console.log('cart');
+
+
+
+  res.render("shop/cart", {
+    title: "Cart",
+    products: [{ title: 'waqar', quantity: 3, id: 2 }],
+    pageTitle: "Carts",
+    path: "/cart",
+  });
+
+
+
 };
 exports.getOrder = async (req, res, next) => {
   req.user

@@ -10,12 +10,12 @@ routes.get("/", shopController.getIndex);
 
 routes.get("/products", shopController.listProduct);
 
-// routes.get("/cart", shopController.getCart);
+routes.get("/cart", shopController.getCart);
 
 // routes.get("/order", shopController.getOrder);
 
 
-// routes.get("/product/:productId", shopController.getProduct);
+routes.get("/product/:productId", shopController.getProduct);
 
 // routes.post("/cart-delete", shopController.deleteCartProduct);
 
