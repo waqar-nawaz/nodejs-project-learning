@@ -29,12 +29,12 @@
         
 
                                 <tr>
-                                    <td><%= product.title %></td>
-                                    <td><%= product.cartItem.quantity %></td>
-                                    <td>$<%= product.id %></td>
+                                    <td><%= product?.productId.title %></td>
+                                    <td><%= product?.quantity %></td>
+                                    <td>$<%= product?._id %></td> 
                                     <td>
                                       <form class="delete-form" action="/cart-delete" method="post">
-                                        <input type="hidden" value="<%= product.id %>" name="productId">
+                                        <input type="hidden" value="<%= product._id %>" name="productId">
                                         <button type="submit">Remove</button>
                                       </form>
                                     </td>

@@ -18,8 +18,8 @@ const userSchema = Schema({
   ,
   cart: {
     items: [{
-      productId: { type: Schema.Types.ObjectId, require: true, ref: 'User' }
-      , quantity: { type: Number, require: true }
+      productId: { type: Schema.Types.ObjectId, require: true, ref: 'Product' }
+      , quantity: { type: Number, require: true },
     }]
   }
 });
@@ -54,6 +54,24 @@ userSchema.methods.addtoCart = function (product) {
 
 }
 
+userSchema.methods.deletCartItem = function (cartId) {
+
+  console.log('call delet item', cartId);
+
+  const array = this.cart.items.filter((cart) => {
+
+    // console.log(cart._id, cartId);
+    return cart._id.toString() != cartId.toString()
+  })
+
+  this.cart.items = array
+
+  // console.log(array);
+  return this.save()
+
+
+
+}
 
 
 module.exports = mongoose.model('User', userSchema)

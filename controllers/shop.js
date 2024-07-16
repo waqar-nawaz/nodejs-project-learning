@@ -1,4 +1,5 @@
 const Product = require("../models/productModel");
+const User = require("../models/user");
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -62,15 +63,33 @@ exports.getIndex = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
 
-  console.log('cart');
 
+  // User.find().then((user) => {
 
+  //   console.log('user ', user[0].cart.items);
+  //   res.render("shop/cart", {
+  //     title: "Cart",
+  //     products: user[0].cart.items,
+  //     pageTitle: "Carts",
+  //     path: "/cart",
+  //   });
 
-  res.render("shop/cart", {
-    title: "Cart",
-    products: [{ title: 'waqar', quantity: 3, id: 2 }],
-    pageTitle: "Carts",
-    path: "/cart",
+  // }).catch((err) => {
+  //   console.log(err);
+
+  // });
+
+  req.user.populate('cart.items.productId').then((user) => {
+
+    res.render("shop/cart", {
+      title: "Cart",
+      products: user.cart.items,
+      pageTitle: "Carts",
+      path: "/cart",
+    });
+
+  }).catch((err) => {
+
   });
 
 
@@ -92,26 +111,11 @@ exports.getOrder = async (req, res, next) => {
 
 exports.deleteCartProduct = (req, res, next) => {
   let productId = req.body.productId;
-  req.user
-    .getCart()
-    .then((cart) => {
-      return cart
-        .getProducts({ where: { id: productId } })
-        .then((prodcut) => {
-          let prodcuts = prodcut[0];
-          return prodcuts.cartItem.destroy();
-        })
-        .then(() => {
-          res.redirect("/cart");
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 
-  // ProductModel.getSingleProduct(req.body.productId).then((singleProduct) => {
-  //   Cart.deleteCart(req.body.productId, singleProduct.price);
-  // });
+  req.user.deletCartItem(productId)
+
+  res.redirect('/cart')
+
 };
 
 exports.postOrder = (req, res, next) => {

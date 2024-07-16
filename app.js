@@ -19,7 +19,7 @@ app.set("views", "views");
 
 app.use((req, res, next) => {
 
-  User.findById('66966aaf222ee483342a4e90')
+  User.findById('6696ce5201ee1fbafdbc8aa5')
     .then((user) => {
 
       req.user = user;
