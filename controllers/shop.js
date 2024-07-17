@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
-const User = require("../models/user");
 const readline = require("readline");
+const Order = require("../models/order");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -96,17 +96,20 @@ exports.getCart = async (req, res, next) => {
 
 };
 exports.getOrder = async (req, res, next) => {
-  req.user
-    .getOrders({ include: ["products"] })
-    .then((order) => {
-      res.render("shop/order", {
-        title: "Order",
-        pageTitle: "Order",
-        order: order,
-        path: "/order",
-      });
-    })
-    .catch((err) => { });
+
+
+  Order.find({ 'user.userId': req.user._id }).then((order) => {
+    res.render("shop/order", {
+      title: "Order",
+      pageTitle: "Order",
+      order: order,
+      path: "/order",
+    });
+  }).catch((err) => {
+
+  });
+
+
 };
 
 exports.deleteCartProduct = (req, res, next) => {
@@ -119,34 +122,24 @@ exports.deleteCartProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let fetchcart;
-  req.user
-    .getCart()
-    .then((cart) => {
-      fetchcart = cart;
-      return cart.getProducts();
-    })
-    .then((products) => {
-      return req.user
-        .createOrder()
-        .then((order) => {
-          order.addProduct(
-            products.map((product) => {
-              product.orderItem = {
-                quantity: product.cartItem.quantity,
-              };
-              return product;
-            })
-          );
-        })
-        .catch((err) => { })
 
-        .then((result) => {
-          return res.redirect("/order");
-        })
-        .then((result) => {
-          return fetchcart.setProducts(null);
-        });
+  req.user.populate('cart.items.productId').then((user) => {
+
+    const orderarray = user.cart.items.map((res) => {
+      return { productdata: { ...res.productId._doc }, quantity: res.quantity }
     })
-    .catch((err) => { });
+
+    const order = new Order({ product: orderarray, user: { name: req.user.name, userId: req.user._id } })
+    return order.save();
+
+  }).then((result) => {
+
+    res.redirect('/order')
+
+    req.user.removeAllcartItem()
+  }).catch((err) => {
+
+    console.log('order eror', err);
+  });
+
 };

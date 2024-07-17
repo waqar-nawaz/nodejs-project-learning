@@ -72,6 +72,23 @@ userSchema.methods.deletCartItem = function (cartId) {
 
 
 }
+userSchema.methods.removeAllcartItem = function () {
+
+  console.log('call delet item');
+
+  const array = this.cart.items.filter((cart) => {
+
+
+  })
+
+  this.cart.items = []
+
+  // console.log(array);
+  return this.save()
+
+
+
+}
 
 
 module.exports = mongoose.model('User', userSchema)

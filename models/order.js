@@ -18,8 +18,9 @@ const orderSchema = new Schema({
       require: true
     },
     userId: {
-      type: Schema.Types, ObjectId,
-      require: true
+      type: Schema.Types.ObjectId,
+      require: true,
+      ref: 'User'
     }
   }
 
