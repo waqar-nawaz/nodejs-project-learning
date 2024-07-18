@@ -4,14 +4,14 @@
       <li><a href="/" class="<%= path==='/'?'active':'' %>">Shop</a></li>
       <li>
         <a href="/products" class="<%= path==='/products'?'active':'' %>"
-          >products</a
+          >Products</a
         >
       </li>
       <li>
-        <a href="/cart" class="<%= path==='/cart'?'active':'' %>">cart</a>
+        <a href="/cart" class="<%= path==='/cart'?'active':'' %>">Cart</a>
       </li>
       <li>
-        <a href="/order" class="<%= path==='/order'?'active':'' %>">order</a>
+        <a href="/order" class="<%= path==='/order'?'active':'' %>">Order</a>
       </li>
       <li>
         <a
@@ -26,6 +26,10 @@
           class="<%= path==='/admin/product'?'active':'' %>"
           >Admin Product</a
         >
+      </li>
+      <!-- Add Login button here -->
+      <li style="position: absolute; right: 15px">
+        <a href="/login" class="<%= path==='login'?'active':'' %>">Login</a>
       </li>
     </ul>
   </nav>

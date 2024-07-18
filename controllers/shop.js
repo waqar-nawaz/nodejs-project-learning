@@ -2,10 +2,7 @@ const Product = require("../models/productModel");
 const readline = require("readline");
 const Order = require("../models/order");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+
 
 exports.listProduct = async (req, res, next) => {
   Product.find()

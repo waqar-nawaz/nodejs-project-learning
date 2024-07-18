@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const adminrHandler = require("./routes/admin");
 const shopHandler = require("./routes/shop");
+const auth = require("./routes/auth");
 const errorController = require("./controllers/errorController");
 const mongoose = require('mongoose')
 const User = require('./models/user')
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 });
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
+app.use(auth);
 app.use(errorController.get404);
 
 
@@ -66,36 +68,6 @@ mongoose.connect(process.env.MONGO_URL).then((result) => {
   console.log(err);
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
