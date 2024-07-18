@@ -1,6 +1,6 @@
 
 
-
+const User = require('../models/user')
 
 
 exports.getlogin = (req, res, next) => {
@@ -16,15 +16,32 @@ exports.getlogin = (req, res, next) => {
 };
 
 exports.postlogin = (req, res, next) => {
+    User.findById('6696ce5201ee1fbafdbc8aa5')
+        .then((user) => {
 
-    req.session.islogin = req.body.password == 'true' ? true : false
-    console.log(typeof req.body.password)
+            req.session.user = user;
+            req.session.islogin = req.body.password == 'true' ? true : false
 
-    res.redirect('/')
+            req.session.save(err => {
+                console.log(err);
+                res.redirect('/');
+            });
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 
 };
 
 
 
 
+exports.postLogout = (req, res, next) => {
 
+    req.session.destroy((err) => {
+
+        res.redirect('/')
+    })
+
+};

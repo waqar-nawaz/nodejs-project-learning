@@ -11,6 +11,8 @@ const mongoose = require('mongoose')
 const User = require('./models/user')
 
 const session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
 
 
 
@@ -20,14 +22,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+var store = new MongoDBStore({
+  uri: process.env.MONGO_URL,
+  collection: 'Sessions'
+});
 
 app.use(
-  session({ secret: 'my secret', resave: false, saveUninitialized: false })
+  session({ secret: 'my secret', resave: false, saveUninitialized: false, store: store })
 );
 
 app.use((req, res, next) => {
 
-  User.findById('6696ce5201ee1fbafdbc8aa5')
+  if (!req.session.user) {
+    return next()
+  }
+  User.findById(req.session.user._id)
     .then((user) => {
 
       req.user = user;

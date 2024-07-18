@@ -21,10 +21,15 @@
                                 <p>product-price $ <%= element?.price %>
                                 </p>
                                 <div style="display:flex; justify-content: center;">
-                                    <form action="/admin/cart" method="POST">
-                                        <button type="submit">Add To Cart</button>
-                                        <input type="hidden" name="productId" value="<%= element._id %>">
-                                    </form>
+
+                                    <% if (isauthntivated) { %>
+                                        <form action="/admin/cart" method="POST">
+                                            <button type="submit">Add To Cart</button>
+                                            <input type="hidden" name="productId" value="<%= element._id %>">
+                                        </form>
+                                    <% } %>
+
+                                   
                                     <a href="product/<%= element._id %>" class="add-to-cart-btn"> Detail</a>
                                 </div>
                             </div>

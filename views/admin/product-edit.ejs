@@ -5,7 +5,7 @@
     <%- include('../includes/header.ejs') %>
 
     <main>
-        <form action="/admin/<% if(editMode){ %>edit-product<% } else{ %>add-product<% } %> " method="POST">
+        <form class="formdata" action="/admin/<% if(editMode){ %>edit-product<% } else{ %>add-product<% } %> " method="POST">
             <% if(editMode){ %>
                 <input type="hidden" name="productId" value="<%= product._id %>">
             <% } %>

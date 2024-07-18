@@ -19,11 +19,12 @@
                         </h2>
                         <p> <%= element?.description %></p>
                         <p>product-price $ <%= element?.price %></p>
-
+                        <% if (isauthntivated) { %>
                         <form action="/admin/cart" method="POST">
                             <button type="submit"  >Add To Cart</button>
                             <input type="hidden" name="productId" value="<%= element._id %>" >
                         </form>
+                        <% } %>
                     </div>
 
                     <% } %>

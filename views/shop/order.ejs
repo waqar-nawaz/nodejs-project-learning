@@ -9,23 +9,23 @@
 
     <div class="order-container">
         <% if (order.length > 0) { %>
-            <% order.forEach(order => { %>
-                <div class="order-item">
-                    <h2>Order ID: <%= order._id %></h2>
-                    <div class="product-list">
-                        <% order.product.forEach(product => { %>
-                            <div class="product-item">
-                                <p class="product-title"><%= product?.productdata?.title %></p>
-                                <p class="product-quantity">Quantity: <%= product?.quantity %></p>
-                            </div>
-                        <% }) %>
-                    </div>
-                </div>
-            <% }) %>
+          <% order.forEach(order => { %>
+            <div class="order-item">
+              <h2>Order ID: <%= order._id %></h2>
+              <div class="product-list">
+                <% order.product.forEach(product => { %>
+                  <div class="product-item">
+                    <p class="product-title"><%= product?.productdata?.title %></p>
+                    <p class="product-quantity">Quantity: <%= product?.quantity %></p>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
         <% } else { %>
-            <h2 class="centered">Order Not Found</h2>
+          <h2 class="centered">Order Not Found</h2>
         <% } %>
-    </div>
+      </div>
 
     <%- include('../includes/end.ejs') %>
 </body>

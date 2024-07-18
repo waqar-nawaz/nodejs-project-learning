@@ -18,17 +18,20 @@
 }
 
 .product-list {
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
   padding-left: 20px;
 }
 
 .product-item {
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
-}
-
-.product-item:last-child {
-  border-bottom: none;
+  border: 1px solid #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  flex: 1 1 calc(25% - 20px); /* Adjust the width and spacing for four items per row */
+  box-sizing: border-box;
 }
 
 .product-title {

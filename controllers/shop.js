@@ -7,7 +7,7 @@ const Order = require("../models/order");
 exports.listProduct = async (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log("object :>> ", products);
+      // console.log("object :>> ", products);
       res.render("shop/product-list", {
         addProduct: products,
         title: "Products",
@@ -24,7 +24,7 @@ exports.listProduct = async (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   Product.findById(req.params.productId)
     .then((result) => {
-      console.log("result :>> ", result);
+      // console.log("result :>> ", result);
       res.render("shop/product-detail", {
         singleProduct: result,
         title: "Products Detail",
@@ -44,7 +44,7 @@ exports.getProduct = (req, res, next) => {
 exports.getIndex = async (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log("object :>> ", products);
+      // console.log("object :>> ", products);
       res.render("shop/index", {
         addProduct: products,
         title: "Shops",

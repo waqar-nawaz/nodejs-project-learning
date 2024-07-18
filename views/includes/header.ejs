@@ -7,6 +7,7 @@
           >Products</a
         >
       </li>
+      <% if (isauthntivated) { %>
       <li>
         <a href="/cart" class="<%= path==='/cart'?'active':'' %>">Cart</a>
       </li>
@@ -14,7 +15,6 @@
         <a href="/order" class="<%= path==='/order'?'active':'' %>">Order</a>
       </li>
 
-      <% if (isauthntivated) { %>
       <li>
         <a
           href="/admin/add-product"
@@ -29,12 +29,21 @@
           >Admin Product</a
         >
       </li>
-      <% } %>
-
+      <% } %> <% if (!isauthntivated) { %>
       <!-- Add Login button here -->
       <li style="position: absolute; right: 15px">
         <a href="/login" class="<%= path==='login'?'active':'' %>">Login</a>
       </li>
+
+      <% } else {%>
+
+      <li style="position: absolute; right: 15px">
+        <form action="/logout" method="POST">
+          <a href="#" onclick="this.closest('form').submit()">Logout</a>
+        </form>
+      </li>
+
+      <% } %>
     </ul>
   </nav>
 </header>
