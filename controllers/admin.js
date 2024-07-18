@@ -11,6 +11,7 @@ exports.getProduct = (req, res) => {
     pageTitle: "add-product",
     path: "admin/add/product",
     editMode: false,
+    isauthntivated: req.session.islogin
   });
 };
 
@@ -26,6 +27,7 @@ exports.editProduct = (req, res) => {
         path: "admin/edit/product",
         editMode: true,
         product: result,
+        isauthntivated: req.session.islogin
       });
     })
     .catch((error) => {
@@ -105,6 +107,7 @@ exports.getProductlist = async (req, res, next) => {
       title: "Products",
       pageTitle: "admin product",
       path: "/admin/product",
+      isauthntivated: req.session.islogin
     });
   }).catch((err) => {
 

@@ -10,16 +10,18 @@ exports.getlogin = (req, res, next) => {
         title: "Login",
         pageTitle: "login",
         path: "login",
+        isauthntivated: req.session.islogin
     });
 
 };
 
 exports.postlogin = (req, res, next) => {
 
-    console.log(req.body)
+    req.session.islogin = req.body.password == 'true' ? true : false
+    console.log(typeof req.body.password)
 
-    res.setHeader('Set-Cookie', 'myCookie=false; HttpOnly');
-    res.write('set cookies but not showing')
+    res.redirect('/')
+
 };
 
 

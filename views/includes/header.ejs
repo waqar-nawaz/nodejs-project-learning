@@ -13,6 +13,8 @@
       <li>
         <a href="/order" class="<%= path==='/order'?'active':'' %>">Order</a>
       </li>
+
+      <% if (isauthntivated) { %>
       <li>
         <a
           href="/admin/add-product"
@@ -27,6 +29,8 @@
           >Admin Product</a
         >
       </li>
+      <% } %>
+
       <!-- Add Login button here -->
       <li style="position: absolute; right: 15px">
         <a href="/login" class="<%= path==='login'?'active':'' %>">Login</a>
