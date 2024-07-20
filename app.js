@@ -47,6 +47,14 @@ app.use((req, res, next) => {
     });
 
 });
+
+
+app.use((req, res, next) => {
+  res.locals.khan = 'yes it passed'
+  next();
+})
+
+
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
 app.use(auth);
@@ -54,31 +62,9 @@ app.use(errorController.get404);
 
 
 mongoose.connect(process.env.MONGO_URL).then((result) => {
-
-
-  User.findOne().then((user) => {
-
-    if (!user) {
-      const user = new User({
-        email: 'waqar@gmail.com',
-        name: 'waqar',
-        cart: {
-          items: []
-        }
-      })
-
-      user.save().then((result) => {
-        console.log('user create')
-      }).catch((err) => {
-
-      });
-    }
-  }).catch((err) => {
-
-  });
-
   console.log(`WORKING PORT IS http://localhost:${4200 || process.env.PORT}`);
   app.listen(4200 || process.env.PORT)
+
 }).catch((err) => {
 
   console.log(err);

@@ -1,0 +1,20 @@
+
+
+
+<%- include('../includes/head.ejs')  %>
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+    <%- include('../includes/header.ejs') %>
+
+    <main style="text-align: center;">
+        <h1>Sign Up</h1>
+        <form class="formdata" action="/signup" method="POST" style="display: inline-block; text-align: left;">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </main>
+    
+    <%- include('../includes/end.ejs') %>

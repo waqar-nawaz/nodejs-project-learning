@@ -31,8 +31,12 @@
       </li>
       <% } %> <% if (!isauthntivated) { %>
       <!-- Add Login button here -->
-      <li style="position: absolute; right: 15px">
+      <li style="position: absolute; right: 110px">
         <a href="/login" class="<%= path==='login'?'active':'' %>">Login</a>
+      </li>
+
+      <li style="position: absolute; right: 15px">
+        <a href="/signup" class="<%= path==='signup'?'active':'' %>">Sign Up</a>
       </li>
 
       <% } else {%>

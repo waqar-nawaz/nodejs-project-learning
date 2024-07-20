@@ -1,13 +1,15 @@
 // const rootDir = require("../utils/path");
 // const path = require("path");
 
+const isauth = require('../middleware/isauth');
+
 
 const express = require("express");
 const routes = express.Router();
 const userController = require('../controllers/admin')
 
 
-routes.get("/add-product", userController.getProduct);
+routes.get("/add-product", isauth, userController.getProduct);
 
 routes.post("/add-product", userController.postProduct);
 
