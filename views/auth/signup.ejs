@@ -9,8 +9,15 @@
 
     <main style="text-align: center;">
         <h1>Sign Up</h1>
+
+        <% if (errorMessage) { %>
+          <h4 style="background-color: rgb(226, 111, 111);color:white;padding: 12px;"><%=errorMessage %></h4>
+        <% } %>
+
+       
+
         <form class="formdata" action="/signup" method="POST" style="display: inline-block; text-align: left;">
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="email" placeholder="Email"  >
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="confirm_password" placeholder="Confirm Password" required>
             <button type="submit">Sign Up</button>
