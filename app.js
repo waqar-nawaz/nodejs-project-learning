@@ -55,11 +55,22 @@ app.use((req, res, next) => {
 })
 
 
+
+
 app.use("/admin", adminrHandler);
 app.use(shopHandler);
 app.use(auth);
+app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
+app.use((error, req, res, next) => {
+
+  res.render("500", {
+    pageTitle: "500",
+    path: "/500",
+    isauthntivated: req.session.islogin,
+  });
+})
 
 mongoose.connect(process.env.MONGO_URL).then((result) => {
   console.log(`WORKING PORT IS http://localhost:${4200 || process.env.PORT}`);

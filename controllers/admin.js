@@ -3,8 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const Product = require("../models/productModel");
 const User = require("../models/user");
-const { log } = require("console");
-
+const mongoose = require('mongoose');
 exports.getProduct = (req, res) => {
   // res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/product-edit", {
@@ -35,7 +34,7 @@ exports.editProduct = (req, res) => {
     });
 };
 
-exports.postProduct = (req, res) => {
+exports.postProduct = (req, res, next) => {
 
 
 
@@ -45,14 +44,18 @@ exports.postProduct = (req, res) => {
   let price = req.body.price
   let userId = req.user
   // UserId: req.user.id
-  const product = new Product({ title, price, description, imgUrl, userId })
+  const product = new Product({ _id: new mongoose.Types.ObjectId('6696ce84e02ddfc78bdc7e62'), title, price, description, imgUrl, userId })
 
   product.save()
     .then((result) => {
       console.log('create Product');
       res.redirect("/admin/product");
     })
-    .catch((err) => console.log("err >> ", err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 
