@@ -44,7 +44,7 @@ exports.postProduct = (req, res, next) => {
   let price = req.body.price
   let userId = req.user
   // UserId: req.user.id
-  const product = new Product({ _id: new mongoose.Types.ObjectId('6696ce84e02ddfc78bdc7e62'), title, price, description, imgUrl, userId })
+  const product = new Product({ title, price, description, imgUrl, userId })
 
   product.save()
     .then((result) => {
