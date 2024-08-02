@@ -5,7 +5,7 @@
     <%- include('../includes/header.ejs') %>
 
     <main>
-        <form class="formdata" action="/admin/<% if(editMode){ %>edit-product<% } else{ %>add-product<% } %> " method="POST">
+        <form class="formdata" action="/admin/<% if(editMode){ %>edit-product<% } else{ %>add-product<% } %> " method="POST" enctype="multipart/form-data">
             <% if(editMode){ %>
                 <input type="hidden" name="productId" value="<%= product._id %>">
             <% } %>
@@ -14,7 +14,7 @@
             
             
                 <label for="imgUrl">Image:</label>
-                <input type="text" name="imgUrl" value="<% if (editMode) { %><%= product.imgUrl %><% } %>" id="imgUrl" placeholder="Image Url">
+                <input type="file" name="imgUrl" value="<% if (editMode) { %><%= product.imgUrl %><% } %>" id="imgUrl" placeholder="Image Url">
            
             
             <label for="price">Price:</label>

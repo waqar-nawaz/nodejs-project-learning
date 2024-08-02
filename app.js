@@ -12,12 +12,17 @@ const User = require('./models/user')
 
 const session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
+const multer = require('multer');
+const { diskStorage, filterType } = require('./utils/fileUpload');
 
 
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(multer({ storage: diskStorage, fileFilter: filterType }).single('imgUrl'))
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/Images', express.static(path.join(__dirname, "Images")));
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -65,16 +70,18 @@ app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
 
+  console.log(error);
   res.render("500", {
     pageTitle: "500",
     path: "/500",
     isauthntivated: req.session.islogin,
+    error: error
   });
 })
 
 mongoose.connect(process.env.MONGO_URL).then((result) => {
-  console.log(`WORKING PORT IS http://localhost:${4200 || process.env.PORT}`);
-  app.listen(4200 || process.env.PORT)
+  console.log(`WORKING PORT IS http://localhost:${process.env.PORT || 4200}`);
+  app.listen(process.env.PORT || 4200)
 
 }).catch((err) => {
 

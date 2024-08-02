@@ -40,10 +40,11 @@ exports.postProduct = (req, res, next) => {
 
   let title = req.body.product_name
   let description = req.body.description
-  let imgUrl = req.body.imgUrl
+  let imgUrl = req.file.path
   let price = req.body.price
   let userId = req.user
   // UserId: req.user.id
+  console.log(req.file);
   const product = new Product({ title, price, description, imgUrl, userId })
 
   product.save()
