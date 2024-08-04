@@ -62,13 +62,10 @@ exports.postProduct = (req, res, next) => {
 
 
 exports.postEditProduct = (req, res) => {
-  let data = {
-    title: req.body.product_name,
-    imgUrl: req.body.imgUrl,
-    price: req.body.price,
-    description: req.body.description,
-  };
-  const id = req.body.productId;
+  // const id = req.body.productId;
+  const { productId: id, product_name: title, price, description } = req.body
+  const data = { title, description, title, price }
+  if (req.file) data.imgUrl = req.file.path
 
   Product.updateOne({ _id: id }, data)
     .then((update) => {
@@ -90,16 +87,6 @@ exports.deleteProduct = (req, res, next) => {
       console.log("err :>> ", err);
     });
 
-  // Products.findByPk(id).then((result)=>{
-
-  // return  result.destroy();
-  // }).then((products)=>{
-  //   res.redirect("/admin/product");
-
-  // })
-  // .catch((er)=>{
-  //   console.log('er :>> ', er);
-  // })
 };
 
 exports.getProductlist = async (req, res, next) => {
