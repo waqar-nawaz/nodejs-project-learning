@@ -4,6 +4,7 @@ const path = require("path");
 const Product = require("../models/productModel");
 const User = require("../models/user");
 const mongoose = require('mongoose');
+const deleteImage = require('../utils/fileDelete')
 exports.getProduct = (req, res) => {
   // res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/product-edit", {
@@ -65,34 +66,50 @@ exports.postEditProduct = (req, res) => {
   // const id = req.body.productId;
   const { productId: id, product_name: title, price, description } = req.body
   const data = { title, description, title, price }
-  if (req.file) data.imgUrl = req.file.path
 
-  Product.updateOne({ _id: id }, data)
-    .then((update) => {
-      console.log("update :>> ", update);
-      res.redirect("/admin/product");
-    })
-    .catch((err) => {
-      console.log("err :>> ", err);
-    });
+  Product.findById(id).then((product) => {
+    if (req.file) {
+      deleteImage(product.imgUrl)
+      // console.log('delete image', product.imgUrl)
+      data.imgUrl = req.file.path
+    }
+
+    return Product.updateOne({ _id: id }, data)
+
+  }).then((update) => {
+    // console.log("update :>> ", update);
+    res.redirect("/admin/product");
+  }).catch((err) => {
+    console.log("err :>> ", err);
+  });
 };
+
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.deleteId;
-  Product.findByIdAndDelete(id)
-    .then((result) => {
-      res.redirect("/admin/product");
-    })
-    .catch((err) => {
-      console.log("err :>> ", err);
-    });
+  Product.findById(id).then((product) => {
+
+
+    if (!product) {
+      return res.redirect("/admin/product");
+    }
+
+    deleteImage(product.imgUrl)
+    return Product.findByIdAndDelete(id)
+      .then((result) => {
+        res.redirect("/admin/product");
+      })
+
+  }).catch((err) => {
+    console.log("err :>> ", err);
+  });
 
 };
 
 exports.getProductlist = async (req, res, next) => {
   Product.find().select('title price imgUrl description _id').populate('userId', 'email').then((products) => {
 
-    console.log('with user', products)
+    // console.log('with user', products)
     res.render("admin/product-list", {
       addProduct: products,
       title: "Products",
