@@ -45,12 +45,12 @@ exports.postProduct = (req, res, next) => {
   let price = req.body.price
   let userId = req.user
   // UserId: req.user.id
-  console.log(req.file);
+  // console.log(req.file);
   const product = new Product({ title, price, description, imgUrl, userId })
 
   product.save()
     .then((result) => {
-      console.log('create Product');
+      // console.log('create Product');
       res.redirect("/admin/product");
     })
     .catch((err) => {
